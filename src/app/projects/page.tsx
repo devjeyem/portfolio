@@ -36,6 +36,16 @@ const projects = [
     languages: ["Python", "Tkinter"],
     imageStyle: "cover" as const,
   },
+  {
+    id: 4,
+    title: "Rideal",
+    description: "A fast and efficient on-campus vehicle rental app for students and staff. Features notification system, intuitive booking workflow with date selection and price calculation, and smooth responsive UI.",
+    image: "/projects/rideal.png",
+    githubUrl: "https://github.com/PiedraverdeAllysonJhen/rideal",
+    type: "mobile",
+    languages: ["Dart", "Flutter"],
+    imageStyle: "contain" as const,
+  },
 ];
 
 function ProjectCard({ 
