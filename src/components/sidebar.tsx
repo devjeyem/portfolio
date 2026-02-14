@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -9,6 +10,32 @@ interface NavItem {
   href: string;
   icon: React.ReactNode;
 }
+
+// Stylized J Logo SVG - Vector only, no background
+const JLogo = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <defs>
+      <linearGradient id="jGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#c084fc" />
+        <stop offset="50%" stopColor="#a855f7" />
+        <stop offset="100%" stopColor="#7c3aed" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M22 4V22C22 25.3137 19.3137 28 16 28H12C8.68629 28 6 25.3137 6 22V18"
+      stroke="url(#jGradient)"
+      strokeWidth="4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="22" cy="4" r="3" fill="url(#jGradient)" />
+  </svg>
+);
 
 const navItems: NavItem[] = [
   {
@@ -51,53 +78,162 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [pathname]);
+
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsMobileOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-border bg-sidebar">
-      {/* Logo */}
-      <div className="flex h-16 items-center gap-2 px-6 border-b border-border">
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary">
-          <span className="text-primary-foreground font-bold text-sm">P</span>
-        </div>
-        <span className="text-xl font-semibold text-white">Portfolio</span>
-      </div>
+    <>
+      {/* Mobile hamburger button */}
+      <button
+        onClick={() => setIsMobileOpen(!isMobileOpen)}
+        className="fixed top-4 left-4 z-50 lg:hidden p-2 rounded-lg bg-gray-900/90 border border-purple-500/30 text-white hover:bg-purple-500/20 transition-colors"
+        aria-label="Toggle menu"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {isMobileOpen ? (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          )}
+        </svg>
+      </button>
 
-      {/* Navigation */}
-      <nav className="flex flex-col gap-1 p-4">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
+      {/* Mobile overlay */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={cn(
+          "fixed left-0 top-0 z-40 h-screen border-r border-purple-500/20 bg-gray-950/95 transition-all duration-300 ease-in-out",
+          // Desktop: collapsible width
+          isCollapsed ? "lg:w-20" : "lg:w-64",
+          // Mobile: slide in/out
+          isMobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0"
+        )}
+      >
+        {/* Logo & Collapse button */}
+        <div className="flex h-16 items-center justify-between px-4 border-b border-purple-500/20">
+          <Link href="/" className="flex items-center gap-3">
+            <JLogo className="w-9 h-9 shrink-0" />
+            <span
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-                isActive
-                  ? "bg-primary/20 text-primary border border-primary/30"
-                  : "text-muted-foreground hover:bg-secondary hover:text-white"
+                "text-lg font-semibold text-white whitespace-nowrap transition-all duration-300",
+                isCollapsed && "lg:hidden"
               )}
             >
-              <span className={cn(isActive ? "text-primary" : "text-muted-foreground")}>
-                {item.icon}
-              </span>
-              {item.name}
-            </Link>
-          );
-        })}
-      </nav>
+              Jm Pintin
+            </span>
+          </Link>
+          
+          {/* Collapse button - desktop only */}
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="hidden lg:flex p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors"
+            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            <svg
+              className={cn("w-5 h-5 transition-transform duration-300", isCollapsed && "rotate-180")}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+            </svg>
+          </button>
+        </div>
 
-      {/* Bottom section */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
-        <div className="flex items-center gap-3 rounded-lg px-3 py-2.5 bg-secondary/50">
-          <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center">
-            <span className="text-white text-sm font-medium">JP</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-white">Jm Pintin</span>
-            <span className="text-xs text-muted-foreground">Developer</span>
+        {/* Navigation */}
+        <nav className="flex flex-col gap-1 p-3">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                  isCollapsed && "lg:justify-center lg:px-2",
+                  isActive
+                    ? "bg-purple-500/20 text-purple-300 border border-purple-400/40 shadow-[0_0_15px_rgba(168,85,247,0.15)]"
+                    : "text-gray-400 hover:bg-purple-500/10 hover:text-purple-300"
+                )}
+                title={isCollapsed ? item.name : undefined}
+              >
+                <span className={cn("shrink-0", isActive ? "text-purple-400" : "text-gray-500")}>
+                  {item.icon}
+                </span>
+                <span className={cn("transition-all duration-300", isCollapsed && "lg:hidden")}>
+                  {item.name}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Bottom section */}
+        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-purple-500/20">
+          <div
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 bg-purple-500/10 border border-purple-500/20",
+              isCollapsed && "lg:justify-center lg:px-2"
+            )}
+          >
+            <div className="w-8 h-8 rounded-full bg-linear-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.4)] shrink-0">
+              <span className="text-white text-sm font-medium">JP</span>
+            </div>
+            <div className={cn("flex flex-col transition-all duration-300", isCollapsed && "lg:hidden")}>
+              <span className="text-sm font-medium text-white">Jm Pintin</span>
+              <span className="text-xs text-gray-400">Developer</span>
+            </div>
           </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
+}
+
+// Export collapsed state for layout
+export function useSidebarWidth() {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  
+  useEffect(() => {
+    // Listen for sidebar collapse changes via CSS variable or localStorage
+    const checkCollapsed = () => {
+      const sidebar = document.querySelector('aside');
+      if (sidebar) {
+        setIsCollapsed(sidebar.classList.contains('lg:w-20'));
+      }
+    };
+    
+    const observer = new MutationObserver(checkCollapsed);
+    const sidebar = document.querySelector('aside');
+    if (sidebar) {
+      observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+    }
+    
+    return () => observer.disconnect();
+  }, []);
+  
+  return isCollapsed ? 80 : 256;
 }

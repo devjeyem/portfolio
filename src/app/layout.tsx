@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "My personal portfolio",
+  title: "Jm Pintin | Portfolio",
+  description: "Jm Pintin - Web & App Developer Portfolio",
 };
 
 export default function RootLayout({
@@ -29,7 +29,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
       >
         <Sidebar />
-        <main className="ml-64 min-h-screen">
+        {/* Main content - responsive margin for sidebar */}
+        <main className="min-h-screen transition-all duration-300 lg:ml-64 pt-16 lg:pt-0">
           {children}
         </main>
       </body>
