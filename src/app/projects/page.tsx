@@ -28,13 +28,13 @@ const projects = [
   },
   {
     id: 3,
-    title: "Project Title 3",
-    description: "Brief description of your project goes here. Edit this to describe what you built.",
-    image: "/projects/project-3.png",
-    githubUrl: "https://github.com/devjeyem/your-repo-name",
+    title: "Student Management System",
+    description: "A desktop GUI application for managing student records. Features include adding, editing, deleting, viewing, and sorting student data with a user-friendly interface.",
+    image: "/projects/student-management.png",
+    githubUrl: "https://github.com/devjeyem/Programming-Practice/tree/Main/StudentManagementSystem-GUI",
     type: "desktop",
-    languages: ["C#", ".NET", "SQL"],
-    imageStyle: "contain" as const,
+    languages: ["Python", "Tkinter"],
+    imageStyle: "cover" as const,
   },
 ];
 
