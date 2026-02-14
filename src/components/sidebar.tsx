@@ -78,13 +78,22 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   // Close mobile menu on route change
   useEffect(() => {
     setIsMobileOpen(false);
   }, [pathname]);
+
+  // Update body class when sidebar collapses
+  useEffect(() => {
+    if (isCollapsed) {
+      document.body.classList.add("sidebar-collapsed");
+    } else {
+      document.body.classList.remove("sidebar-collapsed");
+    }
+  }, [isCollapsed]);
 
   // Close mobile menu on resize to desktop
   useEffect(() => {
@@ -133,27 +142,41 @@ export function Sidebar() {
         )}
       >
         {/* Logo & Collapse button */}
-        <div className="flex h-16 items-center justify-between px-4 border-b border-purple-500/20">
-          <Link href="/" className="flex items-center gap-3">
-            <JLogo className="w-9 h-9 shrink-0" />
-            <span
-              className={cn(
-                "text-lg font-semibold text-white whitespace-nowrap transition-all duration-300",
-                isCollapsed && "lg:hidden"
-              )}
+        <div className={cn(
+          "flex h-16 items-center border-b border-purple-500/20",
+          isCollapsed ? "lg:justify-center lg:px-2" : "justify-between px-4"
+        )}>
+          {isCollapsed ? (
+            // Collapsed: just show logo, click to expand
+            <button
+              onClick={() => setIsCollapsed(false)}
+              className="lg:flex hidden items-center justify-center"
+              title="Expand sidebar"
             >
+              <JLogo className="w-9 h-9" />
+            </button>
+          ) : null}
+          <Link href="/" className={cn(
+            "flex items-center gap-3",
+            isCollapsed && "lg:hidden"
+          )}>
+            <JLogo className="w-9 h-9 shrink-0" />
+            <span className="text-lg font-semibold text-white whitespace-nowrap">
               Jm Pintin
             </span>
           </Link>
           
-          {/* Collapse button - desktop only */}
+          {/* Collapse button - desktop only, hidden when collapsed */}
           <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden lg:flex p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors"
-            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            onClick={() => setIsCollapsed(true)}
+            className={cn(
+              "hidden lg:flex p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-purple-500/20 transition-colors",
+              isCollapsed && "lg:hidden"
+            )}
+            aria-label="Collapse sidebar"
           >
             <svg
-              className={cn("w-5 h-5 transition-transform duration-300", isCollapsed && "rotate-180")}
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -164,7 +187,10 @@ export function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-col gap-1 p-3">
+        <nav className={cn(
+          "flex flex-col gap-1 p-3",
+          isCollapsed && "lg:items-center"
+        )}>
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -172,8 +198,8 @@ export function Sidebar() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-                  isCollapsed && "lg:justify-center lg:px-2",
+                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 w-full",
+                  isCollapsed && "lg:w-auto lg:justify-center lg:aspect-square lg:p-2",
                   isActive
                     ? "bg-purple-500/20 text-purple-300 border border-purple-400/40 shadow-[0_0_15px_rgba(168,85,247,0.15)]"
                     : "text-gray-400 hover:bg-purple-500/10 hover:text-purple-300"
@@ -189,14 +215,30 @@ export function Sidebar() {
               </Link>
             );
           })}
+          
+          {/* Expand button - only visible when collapsed */}
+          {isCollapsed && (
+            <button
+              onClick={() => setIsCollapsed(false)}
+              className="hidden lg:flex items-center justify-center rounded-lg aspect-square p-2 text-gray-400 hover:bg-purple-500/10 hover:text-purple-300 transition-colors mt-1"
+              title="Expand sidebar"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
         </nav>
 
         {/* Bottom section */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-purple-500/20">
+        <div className={cn(
+          "absolute bottom-0 left-0 right-0 p-3 border-t border-purple-500/20",
+          isCollapsed && "lg:flex lg:justify-center"
+        )}>
           <div
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2.5 bg-purple-500/10 border border-purple-500/20",
-              isCollapsed && "lg:justify-center lg:px-2"
+              isCollapsed && "lg:p-2 lg:aspect-square lg:justify-center"
             )}
           >
             <div className="w-8 h-8 rounded-full bg-linear-to-br from-purple-500 to-violet-600 flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.4)] shrink-0">

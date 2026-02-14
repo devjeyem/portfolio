@@ -27,11 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background sidebar-collapsed`}
       >
         <Sidebar />
-        {/* Main content - responsive margin for sidebar */}
-        <main className="min-h-screen transition-all duration-300 lg:ml-64 pt-16 lg:pt-0 flex flex-col">
+        {/* Main content - responsive margin for sidebar, starts collapsed */}
+        <main className="main-content min-h-screen transition-all duration-300 lg:ml-20 pt-16 lg:pt-0 flex flex-col">
           <div className="flex-1">
             {children}
           </div>

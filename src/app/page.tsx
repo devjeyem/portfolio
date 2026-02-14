@@ -84,7 +84,7 @@ export default function Home() {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Project Card 1 */}
-          <div className="group relative rounded-xl bg-gray-900/60 border border-purple-500/20 p-5 sm:p-6 transition-all hover:border-purple-400/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:bg-gray-900/80">
+          <a href="/projects?filter=web" className="group relative rounded-xl bg-gray-900/60 border border-purple-500/20 p-5 sm:p-6 transition-all hover:border-purple-400/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:bg-gray-900/80">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-purple-500/20 flex items-center justify-center mb-4 group-hover:bg-purple-500/30 transition-colors">
               <svg className="w-6 h-6 sm:w-7 sm:h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -93,10 +93,10 @@ export default function Home() {
             <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Web App</h3>
             <p className="text-sm sm:text-base text-gray-400 mb-4">A modern web application built with Next.js and TypeScript.</p>
             <span className="text-sm text-purple-400 font-medium group-hover:text-purple-300 transition-colors">View Project →</span>
-          </div>
+          </a>
 
           {/* Project Card 2 */}
-          <div className="group relative rounded-xl bg-gray-900/60 border border-violet-500/20 p-5 sm:p-6 transition-all hover:border-violet-400/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] hover:bg-gray-900/80">
+          <a href="/projects?filter=mobile" className="group relative rounded-xl bg-gray-900/60 border border-violet-500/20 p-5 sm:p-6 transition-all hover:border-violet-400/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] hover:bg-gray-900/80">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-violet-500/20 flex items-center justify-center mb-4 group-hover:bg-violet-500/30 transition-colors">
               <svg className="w-6 h-6 sm:w-7 sm:h-7 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -105,19 +105,19 @@ export default function Home() {
             <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Mobile App</h3>
             <p className="text-sm sm:text-base text-gray-400 mb-4">Cross-platform mobile app with React Native.</p>
             <span className="text-sm text-violet-400 font-medium group-hover:text-violet-300 transition-colors">View Project →</span>
-          </div>
+          </a>
 
           {/* Project Card 3 */}
-          <div className="group relative rounded-xl bg-gray-900/60 border border-fuchsia-500/20 p-5 sm:p-6 transition-all hover:border-fuchsia-400/50 hover:shadow-[0_0_30px_rgba(217,70,239,0.15)] hover:bg-gray-900/80 sm:col-span-2 lg:col-span-1">
+          <a href="/projects?filter=desktop" className="group relative rounded-xl bg-gray-900/60 border border-fuchsia-500/20 p-5 sm:p-6 transition-all hover:border-fuchsia-400/50 hover:shadow-[0_0_30px_rgba(217,70,239,0.15)] hover:bg-gray-900/80 sm:col-span-2 lg:col-span-1">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-fuchsia-500/20 flex items-center justify-center mb-4 group-hover:bg-fuchsia-500/30 transition-colors">
               <svg className="w-6 h-6 sm:w-7 sm:h-7 text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Backend API</h3>
-            <p className="text-sm sm:text-base text-gray-400 mb-4">Scalable REST API with Node.js and PostgreSQL.</p>
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Desktop App</h3>
+            <p className="text-sm sm:text-base text-gray-400 mb-4">Desktop applications built with C# and .NET framework.</p>
             <span className="text-sm text-fuchsia-400 font-medium group-hover:text-fuchsia-300 transition-colors">View Project →</span>
-          </div>
+          </a>
         </div>
       </div>
     </div>
