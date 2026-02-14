@@ -1,36 +1,135 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jm Pintin Portfolio
 
-## Getting Started
+A modern, responsive portfolio website built with Next.js 16, Tailwind CSS v4, and shadcn/ui.
 
-First, run the development server:
+![Portfolio Preview](public/projects/spendsense.png)
+
+## ✨ Features
+
+- 🎨 **Dark Purple Theme** - Modern gradient design with purple accents
+- 📱 **Fully Responsive** - Works on mobile, tablet, and desktop
+- 🚀 **Collapsible Sidebar** - Smooth animations with content area sync
+- 📊 **GitHub Integration** - Real-time language stats from GitHub API
+- 🔍 **Project Filtering** - Filter by Web, Mobile, or Desktop projects
+- 📧 **Contact Form** - Gmail integration for direct messaging
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **UI Components**: shadcn/ui
+- **Fonts**: Geist Sans & Mono
+- **Icons**: Custom SVG
+
+## 📄 Pages
+
+| Page | Description |
+|------|-------------|
+| **Home** | Hero section with profile, featured projects |
+| **About** | Bio, skills (GitHub-powered), experience, education |
+| **Projects** | Filterable project grid with 7 projects |
+| **Contact** | Contact form with Gmail compose integration |
+
+## 🚀 Projects Showcased
+
+| Project | Type | Technologies |
+|---------|------|--------------|
+| SpendSense | Web | TypeScript, Next.js, Tailwind CSS, Supabase |
+| TaskFlow | Mobile | Kotlin |
+| Student Management System | Desktop | Python, Tkinter |
+| Rideal | Mobile | Dart, Flutter |
+| Tic-Tac-Toe | Web | React, JavaScript, CSS |
+| Tip Calculator | Web | TypeScript, Next.js, Tailwind CSS |
+| Netflix Clone | Web | Vue, JavaScript, Tailwind CSS |
+
+## 🏃 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/devjeyem/portfolio.git
+
+# Navigate to directory
+cd portfolio
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/
+│   ├── page.tsx          # Home page
+│   ├── about/            # About page
+│   ├── projects/         # Projects page
+│   ├── contact/          # Contact page
+│   ├── layout.tsx        # Root layout
+│   └── globals.css       # Global styles
+├── components/
+│   ├── sidebar.tsx       # Collapsible sidebar
+│   ├── footer.tsx        # Footer component
+│   └── github-skills.tsx # GitHub language stats
+└── lib/
+    └── utils.ts          # Utility functions
+public/
+└── projects/             # Project images
+```
 
-## Learn More
+## 🎨 Customization
 
-To learn more about Next.js, take a look at the following resources:
+### Adding Projects
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Edit `src/app/projects/page.tsx` and add to the `projects` array:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```typescript
+{
+  id: 8,
+  title: "Your Project",
+  description: "Project description here",
+  image: "/projects/your-project.png",
+  githubUrl: "https://github.com/your-repo",
+  type: "web", // web | mobile | desktop
+  languages: ["Tech", "Stack"],
+  imageStyle: "cover" as const, // cover | contain
+}
+```
 
-## Deploy on Vercel
+### Updating Personal Info
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Name/Email**: Update in `sidebar.tsx`, `footer.tsx`, `page.tsx`
+- **Social Links**: Edit URLs in `footer.tsx`
+- **Bio**: Update content in `about/page.tsx`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Deployment
+
+Deploy easily on [Vercel](https://vercel.com):
+
+```bash
+npm run build
+```
+
+Or connect your GitHub repo to Vercel for automatic deployments.
+
+## 📝 License
+
+MIT License - feel free to use this template for your own portfolio!
+
+## 👤 Author
+
+**Jm Pintin**
+- GitHub: [@devjeyem](https://github.com/devjeyem)
+- Email: pintsjm@gmail.com
