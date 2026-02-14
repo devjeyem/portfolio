@@ -8,79 +8,71 @@ import Image from "next/image";
 const projects = [
   {
     id: 1,
-    title: "Project Title 1",
-    description: "Brief description of your project goes here. Edit this to describe what you built.",
-    image: "/projects/project-1.png", // Add your image
-    repoName: "your-repo-name", // Your GitHub repo name
-    githubUrl: "https://github.com/devjeyem/your-repo-name",
-    type: "mobile",
+    title: "SpendSense",
+    description: "A modern budget tracking and expense management platform for students. Features barcode scanning, budget goals, visual reports, and real-time sync with Supabase.",
+    image: "/projects/spendsense.png",
+    githubUrl: "https://github.com/CSci-153-Web-Systems-and-Technologies/batch-2025-spend-sense-web",
+    type: "web",
+    languages: ["TypeScript", "Next.js", "Tailwind CSS", "Supabase"],
   },
   {
     id: 2,
     title: "Project Title 2",
     description: "Brief description of your project goes here. Edit this to describe what you built.",
-    image: "/projects/project-2.png", // Add your image
-    repoName: "your-repo-name", // Your GitHub repo name
+    image: "/projects/project-2.png",
     githubUrl: "https://github.com/devjeyem/your-repo-name",
-    type: "desktop",
+    type: "mobile",
+    languages: ["Dart", "Flutter", "Firebase"],
   },
   {
     id: 3,
     title: "Project Title 3",
     description: "Brief description of your project goes here. Edit this to describe what you built.",
-    image: "/projects/project-3.png", // Add your image
-    repoName: "your-repo-name", // Your GitHub repo name
+    image: "/projects/project-3.png",
     githubUrl: "https://github.com/devjeyem/your-repo-name",
-    type: "web",
+    type: "desktop",
+    languages: ["C#", ".NET", "SQL"],
   },
 ];
 
-const GITHUB_USERNAME = "devjeyem";
-
-interface ProjectLanguages {
-  [repoName: string]: string[];
-}
-
 function ProjectCard({ 
-  project, 
-  languages 
+  project 
 }: { 
   project: typeof projects[0]; 
-  languages: string[];
 }) {
+  const [imageError, setImageError] = useState(false);
+  
   const typeColors = {
-    mobile: "bg-green-500/20 text-green-400 border-green-500/30",
-    web: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-    desktop: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+    mobile: "bg-green-500/80 text-white border-green-500/50",
+    web: "bg-purple-500/80 text-white border-purple-500/50",
+    desktop: "bg-blue-500/80 text-white border-blue-500/50",
   };
 
   return (
     <div className="group rounded-xl bg-gray-900/60 border border-purple-500/20 overflow-hidden transition-all hover:border-purple-400/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:bg-gray-900/80">
       {/* Project Image */}
       <div className="relative h-48 sm:h-56 bg-slate-800 overflow-hidden">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          onError={(e) => {
-            // Fallback for missing images
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-          }}
-        />
-        {/* Placeholder overlay when image is missing */}
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-800/90">
-          <div className="text-center">
-            <svg className="w-12 h-12 text-purple-500/50 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <p className="text-gray-500 text-sm">Add project image</p>
+        {!imageError ? (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-800">
+            <div className="text-center">
+              <svg className="w-12 h-12 text-purple-500/50 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p className="text-gray-500 text-sm">Add project image</p>
+            </div>
           </div>
-        </div>
+        )}
         
         {/* Type Badge */}
-        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-medium border ${typeColors[project.type as keyof typeof typeColors]}`}>
+        <div className={`absolute top-3 right-3 z-10 px-3 py-1 rounded-full text-xs font-medium border backdrop-blur-sm ${typeColors[project.type as keyof typeof typeColors]}`}>
           {project.type.charAt(0).toUpperCase() + project.type.slice(1)}
         </div>
       </div>
@@ -96,18 +88,14 @@ function ProjectCard({
 
         {/* Languages */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {languages.length > 0 ? (
-            languages.slice(0, 4).map((lang, idx) => (
-              <span 
-                key={idx}
-                className="px-3 py-1 text-sm rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/20"
-              >
-                {lang}
-              </span>
-            ))
-          ) : (
-            <span className="text-gray-500 text-sm">Loading languages...</span>
-          )}
+          {project.languages.map((lang, idx) => (
+            <span 
+              key={idx}
+              className="px-3 py-1 text-sm rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/20"
+            >
+              {lang}
+            </span>
+          ))}
         </div>
 
         {/* GitHub Link */}
@@ -131,7 +119,6 @@ function ProjectsContent() {
   const searchParams = useSearchParams();
   const filterParam = searchParams.get("filter");
   
-  const [projectLanguages, setProjectLanguages] = useState<ProjectLanguages>({});
   const [activeFilter, setActiveFilter] = useState<string>(filterParam || "all");
 
   // Update filter when URL param changes
@@ -144,43 +131,6 @@ function ProjectsContent() {
   const filteredProjects = activeFilter === "all" 
     ? projects 
     : projects.filter(p => p.type === activeFilter);
-
-  useEffect(() => {
-    async function fetchLanguages() {
-      const headers: HeadersInit = {
-        'Accept': 'application/vnd.github.v3+json',
-      };
-      
-      const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-
-      const languageData: ProjectLanguages = {};
-
-      for (const project of projects) {
-        try {
-          const response = await fetch(
-            `https://api.github.com/repos/${GITHUB_USERNAME}/${project.repoName}/languages`,
-            { headers }
-          );
-          
-          if (response.ok) {
-            const data = await response.json();
-            languageData[project.repoName] = Object.keys(data);
-          } else {
-            languageData[project.repoName] = [];
-          }
-        } catch {
-          languageData[project.repoName] = [];
-        }
-      }
-
-      setProjectLanguages(languageData);
-    }
-
-    fetchLanguages();
-  }, []);
 
   return (
     <div className="min-h-screen p-4 sm:p-6 md:p-8">
@@ -253,7 +203,6 @@ function ProjectsContent() {
               <ProjectCard 
                 key={project.id} 
                 project={project} 
-                languages={projectLanguages[project.repoName] || []}
               />
             ))}
           </div>
