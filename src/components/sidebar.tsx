@@ -90,10 +90,10 @@ export function Sidebar() {
       <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
         <div className="flex items-center gap-3 rounded-lg px-3 py-2.5 bg-secondary/50">
           <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center">
-            <span className="text-white text-sm font-medium">JD</span>
+            <span className="text-white text-sm font-medium">JP</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-white">John Doe</span>
+            <span className="text-sm font-medium text-white">Jm Pintin</span>
             <span className="text-xs text-muted-foreground">Developer</span>
           </div>
         </div>
