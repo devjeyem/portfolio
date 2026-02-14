@@ -11,10 +11,19 @@ interface LanguageData {
   bytes: number;
 }
 
+// Fallback data when API is unavailable (e.g. rate limiting)
+const FALLBACK_LANGUAGES: LanguageData[] = [
+  { name: "TypeScript", percentage: 30, bytes: 0 },
+  { name: "JavaScript", percentage: 25, bytes: 0 },
+  { name: "Python", percentage: 15, bytes: 0 },
+  { name: "Dart", percentage: 10, bytes: 0 },
+  { name: "C#", percentage: 10, bytes: 0 },
+  { name: "Vue", percentage: 10, bytes: 0 },
+];
+
 export function GitHubSkills() {
   const [languages, setLanguages] = useState<LanguageData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchGitHubData() {
@@ -62,7 +71,7 @@ export function GitHubSkills() {
         // Aggregate all language bytes
         for (const repoLangs of allLanguages) {
           for (const [lang, bytes] of Object.entries(repoLangs)) {
-            languageBytes[lang] = (languageBytes[lang] || 0) + bytes;
+            languageBytes[lang] = (languageBytes[lang] || 0) + (bytes as number);
           }
         }
         
@@ -83,9 +92,10 @@ export function GitHubSkills() {
           .slice(0, 6); // Top 6 languages
         
         setLanguages(languageData);
-        setLoading(false);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load GitHub data");
+      } catch {
+        // Use fallback data when the API is unavailable
+        setLanguages(FALLBACK_LANGUAGES);
+      } finally {
         setLoading(false);
       }
     }
@@ -109,14 +119,6 @@ export function GitHubSkills() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="text-center py-8">
-        <p className="text-gray-400">{error}</p>
-        <p className="text-sm text-gray-500 mt-2">Using fallback data</p>
-      </div>
-    );
-  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
