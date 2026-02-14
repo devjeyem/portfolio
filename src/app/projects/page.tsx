@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 // Edit these projects - add your actual repo names and image paths
@@ -126,8 +127,23 @@ function ProjectCard({
   );
 }
 
-export default function Projects() {
+function ProjectsContent() {
+  const searchParams = useSearchParams();
+  const filterParam = searchParams.get("filter");
+  
   const [projectLanguages, setProjectLanguages] = useState<ProjectLanguages>({});
+  const [activeFilter, setActiveFilter] = useState<string>(filterParam || "all");
+
+  // Update filter when URL param changes
+  useEffect(() => {
+    if (filterParam && ["all", "web", "mobile", "desktop"].includes(filterParam)) {
+      setActiveFilter(filterParam);
+    }
+  }, [filterParam]);
+
+  const filteredProjects = activeFilter === "all" 
+    ? projects 
+    : projects.filter(p => p.type === activeFilter);
 
   useEffect(() => {
     async function fetchLanguages() {
@@ -189,23 +205,51 @@ export default function Projects() {
 
           {/* Filter Tags */}
           <div className="flex justify-center gap-3 mb-14">
-            <span className="px-4 py-2 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-sm font-medium">
+            <button 
+              onClick={() => setActiveFilter("all")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+                activeFilter === "all" 
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/30" 
+                  : "bg-gray-800/50 text-gray-400 border border-gray-700 hover:border-purple-500/30 hover:text-purple-300"
+              }`}
+            >
               All
-            </span>
-            <span className="px-4 py-2 rounded-full bg-gray-800/50 text-gray-400 border border-gray-700 text-sm font-medium hover:border-purple-500/30 hover:text-purple-300 transition-colors cursor-pointer">
+            </button>
+            <button 
+              onClick={() => setActiveFilter("web")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+                activeFilter === "web" 
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/30" 
+                  : "bg-gray-800/50 text-gray-400 border border-gray-700 hover:border-purple-500/30 hover:text-purple-300"
+              }`}
+            >
               Web
-            </span>
-            <span className="px-4 py-2 rounded-full bg-gray-800/50 text-gray-400 border border-gray-700 text-sm font-medium hover:border-purple-500/30 hover:text-purple-300 transition-colors cursor-pointer">
+            </button>
+            <button 
+              onClick={() => setActiveFilter("mobile")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+                activeFilter === "mobile" 
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/30" 
+                  : "bg-gray-800/50 text-gray-400 border border-gray-700 hover:border-purple-500/30 hover:text-purple-300"
+              }`}
+            >
               Mobile
-            </span>
-            <span className="px-4 py-2 rounded-full bg-gray-800/50 text-gray-400 border border-gray-700 text-sm font-medium hover:border-purple-500/30 hover:text-purple-300 transition-colors cursor-pointer">
+            </button>
+            <button 
+              onClick={() => setActiveFilter("desktop")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+                activeFilter === "desktop" 
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/30" 
+                  : "bg-gray-800/50 text-gray-400 border border-gray-700 hover:border-purple-500/30 hover:text-purple-300"
+              }`}
+            >
               Desktop
-            </span>
+            </button>
           </div>
 
           {/* Projects Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 pb-12">
-            {projects.map((project) => (
+            {filteredProjects.map((project) => (
               <ProjectCard 
                 key={project.id} 
                 project={project} 
@@ -231,6 +275,22 @@ export default function Projects() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function Projects() {
+  return (
+    <Suspense fallback={<ProjectsLoading />}>
+      <ProjectsContent />
+    </Suspense>
+  );
+}
+
+function ProjectsLoading() {
+  return (
+    <div className="min-h-screen p-4 sm:p-6 md:p-8 flex items-center justify-center">
+      <div className="animate-pulse text-purple-400">Loading projects...</div>
     </div>
   );
 }
