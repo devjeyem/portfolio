@@ -14,15 +14,17 @@ const projects = [
     githubUrl: "https://github.com/CSci-153-Web-Systems-and-Technologies/batch-2025-spend-sense-web",
     type: "web",
     languages: ["TypeScript", "Next.js", "Tailwind CSS", "Supabase"],
+    imageStyle: "cover" as const,
   },
   {
     id: 2,
-    title: "Project Title 2",
-    description: "Brief description of your project goes here. Edit this to describe what you built.",
-    image: "/projects/project-2.png",
-    githubUrl: "https://github.com/devjeyem/your-repo-name",
+    title: "TaskFlow",
+    description: "A productivity-focused to-do list app built with Kotlin. Features Camera API integration for quick task capture, intuitive task organization, and seamless mobile experience.",
+    image: "/projects/taskflow.png",
+    githubUrl: "https://github.com/devjeyem/TaskFlow",
     type: "mobile",
-    languages: ["Dart", "Flutter", "Firebase"],
+    languages: ["Kotlin"],
+    imageStyle: "contain" as const,
   },
   {
     id: 3,
@@ -32,6 +34,7 @@ const projects = [
     githubUrl: "https://github.com/devjeyem/your-repo-name",
     type: "desktop",
     languages: ["C#", ".NET", "SQL"],
+    imageStyle: "contain" as const,
   },
 ];
 
@@ -49,15 +52,15 @@ function ProjectCard({
   };
 
   return (
-    <div className="group rounded-xl bg-gray-900/60 border border-purple-500/20 overflow-hidden transition-all hover:border-purple-400/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:bg-gray-900/80">
+    <div className="group h-full flex flex-col rounded-xl bg-gray-900/60 border border-purple-500/20 overflow-hidden transition-all hover:border-purple-400/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:bg-gray-900/80">
       {/* Project Image */}
-      <div className="relative h-48 sm:h-56 bg-slate-800 overflow-hidden">
+      <div className="relative h-48 sm:h-56 bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden flex-shrink-0">
         {!imageError ? (
           <Image
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className={`${project.imageStyle === "cover" ? "object-cover" : "object-contain"} transition-transform duration-500 group-hover:scale-105`}
             onError={() => setImageError(true)}
           />
         ) : (
@@ -78,7 +81,7 @@ function ProjectCard({
       </div>
 
       {/* Content */}
-      <div className="p-6 sm:p-8">
+      <div className="p-6 sm:p-8 flex flex-col flex-grow">
         <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors">
           {project.title}
         </h3>
@@ -103,7 +106,7 @@ function ProjectCard({
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-medium transition-all hover:bg-purple-500/30 hover:border-purple-400/50 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+          className="mt-auto inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-medium transition-all hover:bg-purple-500/30 hover:border-purple-400/50 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]"
         >
           View on GitHub
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
