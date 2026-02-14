@@ -131,3 +131,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Sidebar expand responsive margin - default is collapsed (ml-20) */
+@media (min-width: 1024px) {
+  body:not(.sidebar-collapsed) .main-content {
+    margin-left: 16rem; /* 256px = w-64 */
+  }
+}
