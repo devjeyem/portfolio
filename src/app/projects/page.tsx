@@ -46,6 +46,26 @@ const projects = [
     languages: ["Dart", "Flutter"],
     imageStyle: "contain" as const,
   },
+  {
+    id: 5,
+    title: "Tic-Tac-Toe",
+    description: "Classic fun with a modern twist! A responsive Tic-Tac-Toe game with game stats, move history tracking, and clean UI design.",
+    image: "/projects/tictactoe.png",
+    githubUrl: "https://github.com/devjeyem/tictactoe-jm",
+    type: "web",
+    languages: ["React", "JavaScript", "CSS"],
+    imageStyle: "cover" as const,
+  },
+  {
+    id: 6,
+    title: "Tip Calculator",
+    description: "A simple and intuitive tip calculator web app. Quickly calculate tips and split bills with a clean, responsive interface.",
+    image: "/projects/tipcalculator.png",
+    githubUrl: "https://github.com/devjeyem/tip-calculator-pintin",
+    type: "web",
+    languages: ["TypeScript", "Next.js", "Tailwind CSS"],
+    imageStyle: "cover" as const,
+  },
 ];
 
 function ProjectCard({ 
