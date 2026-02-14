@@ -1,0 +1,236 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+
+// Edit these projects - add your actual repo names and image paths
+const projects = [
+  {
+    id: 1,
+    title: "Project Title 1",
+    description: "Brief description of your project goes here. Edit this to describe what you built.",
+    image: "/projects/project-1.png", // Add your image
+    repoName: "your-repo-name", // Your GitHub repo name
+    githubUrl: "https://github.com/devjeyem/your-repo-name",
+    type: "mobile",
+  },
+  {
+    id: 2,
+    title: "Project Title 2",
+    description: "Brief description of your project goes here. Edit this to describe what you built.",
+    image: "/projects/project-2.png", // Add your image
+    repoName: "your-repo-name", // Your GitHub repo name
+    githubUrl: "https://github.com/devjeyem/your-repo-name",
+    type: "desktop",
+  },
+  {
+    id: 3,
+    title: "Project Title 3",
+    description: "Brief description of your project goes here. Edit this to describe what you built.",
+    image: "/projects/project-3.png", // Add your image
+    repoName: "your-repo-name", // Your GitHub repo name
+    githubUrl: "https://github.com/devjeyem/your-repo-name",
+    type: "web",
+  },
+];
+
+const GITHUB_USERNAME = "devjeyem";
+
+interface ProjectLanguages {
+  [repoName: string]: string[];
+}
+
+function ProjectCard({ 
+  project, 
+  languages 
+}: { 
+  project: typeof projects[0]; 
+  languages: string[];
+}) {
+  const typeColors = {
+    mobile: "bg-green-500/20 text-green-400 border-green-500/30",
+    web: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+    desktop: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  };
+
+  return (
+    <div className="group rounded-xl bg-gray-900/60 border border-purple-500/20 overflow-hidden transition-all hover:border-purple-400/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] hover:bg-gray-900/80">
+      {/* Project Image */}
+      <div className="relative h-48 sm:h-56 bg-slate-800 overflow-hidden">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          onError={(e) => {
+            // Fallback for missing images
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+          }}
+        />
+        {/* Placeholder overlay when image is missing */}
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-800/90">
+          <div className="text-center">
+            <svg className="w-12 h-12 text-purple-500/50 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <p className="text-gray-500 text-sm">Add project image</p>
+          </div>
+        </div>
+        
+        {/* Type Badge */}
+        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-medium border ${typeColors[project.type as keyof typeof typeColors]}`}>
+          {project.type.charAt(0).toUpperCase() + project.type.slice(1)}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6 sm:p-8">
+        <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors">
+          {project.title}
+        </h3>
+        <p className="text-gray-400 text-sm sm:text-base mb-6 leading-relaxed">
+          {project.description}
+        </p>
+
+        {/* Languages */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {languages.length > 0 ? (
+            languages.slice(0, 4).map((lang, idx) => (
+              <span 
+                key={idx}
+                className="px-3 py-1 text-sm rounded-lg bg-purple-500/10 text-purple-300 border border-purple-500/20"
+              >
+                {lang}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-500 text-sm">Loading languages...</span>
+          )}
+        </div>
+
+        {/* GitHub Link */}
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 font-medium transition-all hover:bg-purple-500/30 hover:border-purple-400/50 hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+        >
+          View on GitHub
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+export default function Projects() {
+  const [projectLanguages, setProjectLanguages] = useState<ProjectLanguages>({});
+
+  useEffect(() => {
+    async function fetchLanguages() {
+      const headers: HeadersInit = {
+        'Accept': 'application/vnd.github.v3+json',
+      };
+      
+      const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const languageData: ProjectLanguages = {};
+
+      for (const project of projects) {
+        try {
+          const response = await fetch(
+            `https://api.github.com/repos/${GITHUB_USERNAME}/${project.repoName}/languages`,
+            { headers }
+          );
+          
+          if (response.ok) {
+            const data = await response.json();
+            languageData[project.repoName] = Object.keys(data);
+          } else {
+            languageData[project.repoName] = [];
+          }
+        } catch {
+          languageData[project.repoName] = [];
+        }
+      }
+
+      setProjectLanguages(languageData);
+    }
+
+    fetchLanguages();
+  }, []);
+
+  return (
+    <div className="min-h-screen p-4 sm:p-6 md:p-8">
+      {/* Header Section */}
+      <div className="relative">
+        {/* Purple glow effects */}
+        <div className="absolute top-0 left-1/3 w-64 sm:w-80 md:w-96 h-64 sm:h-80 md:h-96 bg-purple-500/15 rounded-full blur-3xl -z-10" />
+        <div className="absolute top-32 right-1/4 w-48 sm:w-64 h-48 sm:h-64 bg-violet-500/10 rounded-full blur-3xl -z-10" />
+
+        <div className="max-w-6xl mx-auto pt-8 sm:pt-12 md:pt-16">
+          {/* Page Title */}
+          <div className="mb-12 sm:mb-16 text-center">
+            <p className="text-purple-400 font-medium mb-2 text-sm sm:text-base">What I've built</p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
+              My <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-violet-400 to-fuchsia-400">Projects</span>
+            </h1>
+            <div className="w-20 sm:w-24 h-1 bg-linear-to-r from-purple-500 to-violet-500 rounded-full mx-auto mb-6" />
+            <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
+              A collection of projects showcasing my skills in web development, mobile apps, and desktop applications.
+            </p>
+          </div>
+
+          {/* Filter Tags */}
+          <div className="flex justify-center gap-3 mb-14">
+            <span className="px-4 py-2 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-sm font-medium">
+              All
+            </span>
+            <span className="px-4 py-2 rounded-full bg-gray-800/50 text-gray-400 border border-gray-700 text-sm font-medium hover:border-purple-500/30 hover:text-purple-300 transition-colors cursor-pointer">
+              Web
+            </span>
+            <span className="px-4 py-2 rounded-full bg-gray-800/50 text-gray-400 border border-gray-700 text-sm font-medium hover:border-purple-500/30 hover:text-purple-300 transition-colors cursor-pointer">
+              Mobile
+            </span>
+            <span className="px-4 py-2 rounded-full bg-gray-800/50 text-gray-400 border border-gray-700 text-sm font-medium hover:border-purple-500/30 hover:text-purple-300 transition-colors cursor-pointer">
+              Desktop
+            </span>
+          </div>
+
+          {/* Projects Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 pb-12">
+            {projects.map((project) => (
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                languages={projectLanguages[project.repoName] || []}
+              />
+            ))}
+          </div>
+
+          {/* More Projects CTA */}
+          <div className="text-center py-12">
+            <p className="text-gray-400 mb-4">Want to see more of my work?</p>
+            <a
+              href="https://github.com/devjeyem"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-gray-900/80 border border-gray-700 text-white text-lg font-medium transition-all hover:bg-gray-800 hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+            >
+              View GitHub Profile
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
