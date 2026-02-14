@@ -2,7 +2,7 @@
 
 A modern, responsive portfolio website built with Next.js 16, Tailwind CSS v4, and shadcn/ui.
 
-![Portfolio Preview](public/projects/spendsense.png)
+![Portfolio Preview](public/projects/portfolio.png)
 
 ## ✨ Features
 
