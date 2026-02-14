@@ -66,6 +66,16 @@ const projects = [
     languages: ["TypeScript", "Next.js", "Tailwind CSS"],
     imageStyle: "cover" as const,
   },
+  {
+    id: 7,
+    title: "Netflix Clone",
+    description: "A responsive web app mimicking Netflix's core design. Features dynamic homepage, movie thumbnails, hover effects, and modern UI built with Vue.",
+    image: "/projects/netflix-clone.png",
+    githubUrl: "https://github.com/devjeyem/netflix_clone",
+    type: "web",
+    languages: ["Vue", "JavaScript", "Tailwind CSS"],
+    imageStyle: "cover" as const,
+  },
 ];
 
 function ProjectCard({ 
